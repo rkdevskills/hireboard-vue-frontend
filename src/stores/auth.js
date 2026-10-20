@@ -48,5 +48,25 @@ export const useAuthStore = defineStore('auth', () => {
         }
     }
 
-    return { user, token, login, logout, fetchUser}
+    async function register(fields) {
+        const response =  await fetch('http://127.0.0.1:8000/api/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+            body: JSON.stringify(fields)
+        })
+
+        if(!response.ok) {
+            throw new Error('Registration failed ' + response.status)
+        }
+
+        const data = await response.json()
+        user.value = data.user
+        token.value = data.token
+        localStorage.setItem('token', data.token)
+    }
+
+    return { user, token, login, logout, fetchUser, register}
 })

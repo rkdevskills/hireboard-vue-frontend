@@ -72,6 +72,10 @@ onMounted(() => {
                     px-4 py-2 rounded-lg transition">
               Login
             </RouterLink>
+            <RouterLink to="/register" class="bg-black hover:bg-gray-700 text-white
+                    px-4 py-2 rounded-lg transition">
+              Register
+            </RouterLink>
           </template>
 
         </div>

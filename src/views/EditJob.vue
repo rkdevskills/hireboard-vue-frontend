@@ -2,6 +2,7 @@
 import { onMounted, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router'
 import { useJobsStore } from '@/stores/jobs'
+import { useAuthStore } from '@/stores/auth'
 import JobForm from './JobForm.vue'
 
 const route = useRoute()
@@ -15,10 +16,18 @@ const loadError = ref('')
 const saveError = ref('')
 const success = ref('')
 const isSubmitting = ref(false)
+const auth = useAuthStore()
 
 async function loadJob() {
     try {
-        const response = await fetch('http://127.0.0.1:8000/api/jobs/' + route.params.id)
+        const response = await fetch('http://127.0.0.1:8000/api/jobs/' + route.params.id, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'Authorization': 'Bearer ' + auth.token
+            },
+        })
         if(!response.ok) {
             throw new Error('Failed to load the job')
         }

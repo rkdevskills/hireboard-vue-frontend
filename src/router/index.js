@@ -7,10 +7,12 @@ import { useAuthStore } from "@/stores/auth"
 import AccessDenied from "@/views/AccessDenied.vue"
 import MyJobs from "@/views/MyJobs.vue"
 import EditJob from "@/views/EditJob.vue"
+import Register from "@/views/Register.vue"
 
 const routes = [
     { path: '/access-denied', component: AccessDenied },
-    { path: '/login', component: Login },
+    { path: '/register', component: Register, meta: { guestOnly: true } },
+    { path: '/login', component: Login, meta: { guestOnly: true } },
     { path: '/', component: JobList },
     { path: '/jobs/:id', component: JobDetail },
     { path: '/post-job', component: PostJob, meta: { requiresAuth: true } },
@@ -30,6 +32,10 @@ router.beforeEach((to, from) => {
     } else if(to.meta.requiresAuth && auth.user.role !== 'employer')
     {
         return { path: '/access-denied' }
+    }
+
+    if(to.meta.guestOnly && auth.user) {
+        return { path: '/' }
     }
 })
 

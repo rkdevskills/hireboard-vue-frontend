@@ -13,7 +13,6 @@ const isSubmitting = ref(false)
 
 async function handleSubmit(fields) {
     isSubmitting.value = true
-    console.log(fields)
     try {
         await job.createJob(fields)
         success.value = 'You have successfully created a job!'
